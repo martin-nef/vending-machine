@@ -62,12 +62,12 @@ namespace MoneyServiceTests {
                 new CoinDto { CentValue = (int) Denomination.Dime },
                 new CoinDto { CentValue = (int) Denomination.Quarter },
             };
-            var expected = (double)coins.Sum (coin => coin.CentValue);
+            var expected = coins.Sum (coin => coin.CentValue);
             _sut.InsertCoins (coins);
 
             var currentAmount = _sut.DisplayCurrentAmount ();
 
-            Assert.AreEqual (expected, currentAmount);
+            Assert.AreEqual (expected, (int)currentAmount);
         }
 
         private void VerifyInsertedCoins (ICoinRepository coinRepo, List<CoinDto> expectedCoins) {
