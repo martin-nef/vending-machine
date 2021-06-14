@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using vending_machine.Core.Dtos;
-using vending_machine.Core.Interfaces;
-using vending_machine.Core.Models;
+using Core.Dtos;
+using Core.Interfaces;
+using Core.Models;
 
-namespace vending_machine.Core.Controllers {
+namespace Core.Controllers {
     [ApiController]
     [Route ("coins")]
     public class CoinsController : ControllerBase {

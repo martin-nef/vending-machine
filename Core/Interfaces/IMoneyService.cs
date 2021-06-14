@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using vending_machine.Core.Dtos;
+using Core.Dtos;
 
-namespace vending_machine.Core.Interfaces {
+namespace Core.Interfaces {
     public interface IMoneyService {
-        void InsertCoins (ICollection<CoinDto> coins);
+        void InsertCoins (ICollection<CoinDto> coinDtos);
+        double DisplayCurrentAmount();
     }
 }

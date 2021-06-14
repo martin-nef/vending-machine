@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.Interfaces;
 using Core.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using vending_machine.Core.Interfaces;
-using vending_machine.Core.Services;
+using Core.Services;
 
 namespace vending_machine
 {
@@ -36,6 +29,7 @@ namespace vending_machine
             });
             services.AddScoped<IMoneyService, MoneyService>();
             services.AddScoped<ICoinRepository, DummyCoinRepository>();
+            services.AddScoped<ICoinReturnRepository, DummyCoinRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,7 +1,7 @@
-using vending_machine.Core.Dtos;
-using vending_machine.Core.Enums;
+using Core.Dtos;
+using Core.Enums;
 
-namespace vending_machine.Core.Models
+namespace Core.Models
 {
     public class Coin
     {

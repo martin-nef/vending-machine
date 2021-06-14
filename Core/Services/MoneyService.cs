@@ -1,24 +1,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using vending_machine.Core.Dtos;
-using vending_machine.Core.Interfaces;
-using vending_machine.Core.Models;
+using Core.Dtos;
+using Core.Interfaces;
+using Core.Models;
 
-namespace vending_machine.Core.Services {
+namespace Core.Services {
     public class MoneyService : IMoneyService {
         private readonly ICoinRepository _coinRepository;
+        private readonly ICoinReturnRepository _coinReturnRepository;
 
-        public MoneyService (ICoinRepository coinRepository) {
+        public MoneyService (
+            ICoinRepository coinRepository,
+            ICoinReturnRepository coinReturnRepository)
+        {
             _coinRepository = coinRepository;
+            _coinReturnRepository = coinReturnRepository;
         }
 
-        public void InsertCoins (ICollection<CoinDto> coins) {
-            _coinRepository.InsertCoins (ConvertDtosToModels (coins));
+        public double DisplayCurrentAmount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InsertCoins (ICollection<CoinDto> coinDtos) {
+            var coins = ConvertDtosToModels (coinDtos);
+            _coinRepository.InsertCoins (coins);
         }
 
         private ICollection<Coin> ConvertDtosToModels (ICollection<CoinDto> coins) {
-            return coins.Select(dto => new Coin(dto)).ToList();
+            return coins.Select (dto => new Coin (dto)).ToList ();
         }
     }
 }

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using vending_machine.Core.Models;
+using Core.Models;
 
-namespace vending_machine.Core.Interfaces {
+namespace Core.Interfaces {
     public interface ICoinRepository {
         void InsertCoins (ICollection<Coin> coins);
-        ICollection<Coin> GetCoins ();
+        ICollection<Coin> GetCoins();
     }
 }

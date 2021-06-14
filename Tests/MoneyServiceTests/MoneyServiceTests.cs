@@ -1,49 +1,82 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Dtos;
+using Core.Enums;
+using Core.Interfaces;
+using Core.Models;
+using Core.Repositories;
+using Core.Services;
 using Moq;
 using NUnit.Framework;
-using vending_machine.Core.Dtos;
-using vending_machine.Core.Enums;
-using vending_machine.Core.Interfaces;
-using vending_machine.Core.Models;
-using vending_machine.Core.Services;
 
 namespace MoneyServiceTests {
     public class Tests {
-        private Mock<ICoinRepository> _coinRepo;
+        private ICoinRepository _coinRepo;
+        private DummyCoinRepository _coinReturnRepo;
         private MoneyService _sut;
 
         [SetUp]
         public void Setup () {
-            _coinRepo = new Mock<ICoinRepository> ();
-            _sut = new MoneyService (_coinRepo.Object);
+            _coinRepo = new DummyCoinRepository ();
+            _coinReturnRepo = new DummyCoinRepository ();
+            _sut = new MoneyService (_coinRepo, _coinReturnRepo);
         }
 
-        [TestCase (Denomination.Cent)]
-        [TestCase (Denomination.Dime)]
-        [TestCase (Denomination.Dollar)]
-        [TestCase (Denomination.Half)]
         [TestCase (Denomination.Nickel)]
+        [TestCase (Denomination.Dime)]
         [TestCase (Denomination.Quarter)]
-        public void WhenCoinsAreInserted_ThenTheyAreStored (Denomination denominationOfInsertedCoin)
-        {
+        public void WhenValidCoinsAreInserted_ThenTheyAreStored (Denomination denominationOfInsertedCoin) {
             var coins = new List<CoinDto> {
                 new CoinDto { CentValue = (int) denominationOfInsertedCoin },
                 new CoinDto { CentValue = (int) denominationOfInsertedCoin },
                 new CoinDto { CentValue = (int) denominationOfInsertedCoin },
             };
 
-            _sut.InsertCoins(coins);
+            _sut.InsertCoins (coins);
 
-            _coinRepo.Verify(repo => repo.InsertCoins(VerifyInsertedCoins(coins)));
+            VerifyInsertedCoins (_coinRepo, coins);
+            VerifyInsertedCoins (_coinReturnRepo, new List<CoinDto> ());
         }
 
-        private ICollection<Coin> VerifyInsertedCoins(List<CoinDto> expectedCoins)
-        {
-            return It.Is<ICollection<Coin>>(
-                insertedCoins => insertedCoins.All(insertedCoin => expectedCoins.Any(expectedCoin => expectedCoin.CentValue == (int)insertedCoin.Type)) &&
-                insertedCoins.Sum(coin => (int)coin.Type) == expectedCoins.Sum(coin => coin.CentValue) &&
-                insertedCoins.Count == expectedCoins.Count);
+        [TestCase (Denomination.Cent)]
+        [TestCase (Denomination.Dollar)]
+        [TestCase (Denomination.Half)]
+        public void WhenInValidCoinsAreInserted_ThenTheyAreRejected (Denomination denominationOfInsertedCoin) {
+            var coins = new List<CoinDto> {
+                new CoinDto { CentValue = (int) denominationOfInsertedCoin },
+                new CoinDto { CentValue = (int) denominationOfInsertedCoin },
+                new CoinDto { CentValue = (int) denominationOfInsertedCoin },
+            };
+
+            _sut.InsertCoins (coins);
+
+            VerifyInsertedCoins (_coinReturnRepo, coins);
+            VerifyInsertedCoins (_coinRepo, new List<CoinDto> ());
+        }
+
+        private void WhenIWantToSeeTheCurrentCoinAmount_ThenItIsDisplayed () {
+            var coins = new List<CoinDto> {
+                new CoinDto { CentValue = (int) Denomination.Nickel },
+                new CoinDto { CentValue = (int) Denomination.Dime },
+                new CoinDto { CentValue = (int) Denomination.Quarter },
+            };
+            var expected = coins.Sum (coin => coin.CentValue);
+            _sut.InsertCoins (coins);
+
+            var currentAmount = _sut.DisplayCurrentAmount ();
+
+            Assert.AreEqual (expected, currentAmount);
+        }
+
+        private void VerifyInsertedCoins (ICoinRepository coinRepo, List<CoinDto> expectedCoins) {
+            var insertedCoins = coinRepo.GetCoins ();
+            var denominationsMatch = insertedCoins.All (insertedCoin => expectedCoins.Any (expectedCoin => expectedCoin.CentValue == (int) insertedCoin.Type));
+            var sumsMatch = insertedCoins.Sum (coin => (int) coin.Type) == expectedCoins.Sum (coin => coin.CentValue);
+            var countsMatch = insertedCoins.Count == expectedCoins.Count;
+            Assert.True (denominationsMatch);
+            Assert.True (sumsMatch);
+            Assert.True (countsMatch);
         }
     }
 }

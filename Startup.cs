@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using vending_machine.Core.Interfaces;
+using Core.Interfaces;
 
 namespace vending_machine
 {
