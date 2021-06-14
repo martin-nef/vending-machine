@@ -14,7 +14,11 @@ namespace vending_machine.Core.Services {
         }
 
         public void InsertCoins (ICollection<CoinDto> coins) {
-            throw new NotImplementedException();
+            _coinRepository.InsertCoins (ConvertDtosToModels (coins));
+        }
+
+        private ICollection<Coin> ConvertDtosToModels (ICollection<CoinDto> coins) {
+            return coins.Select(dto => new Coin(dto)).ToList();
         }
     }
 }
