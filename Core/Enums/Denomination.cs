@@ -1,4 +1,4 @@
-namespace vending_machine.Enums
+namespace vending_machine.Core.Enums
 {
     public enum Denomination
     {

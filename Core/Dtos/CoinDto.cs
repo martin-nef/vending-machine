@@ -1,4 +1,4 @@
-namespace vending_machine.Dtos {
+namespace vending_machine.Core.Dtos {
     public class CoinDto {
         public int CentValue { get; set; }
     }

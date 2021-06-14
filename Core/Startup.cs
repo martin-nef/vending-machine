@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using vending_machine.Core.Interfaces;
+using vending_machine.Core.Services;
 
 namespace vending_machine
 {
@@ -33,6 +35,7 @@ namespace vending_machine
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "vending_machine", Version = "v1" });
             });
             services.AddScoped<IMoneyService, MoneyService>();
+            services.AddScoped<ICoinRepository, DummyCoinRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
