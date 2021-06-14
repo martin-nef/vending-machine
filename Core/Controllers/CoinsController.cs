@@ -21,8 +21,10 @@ namespace Core.Controllers {
         }
 
         [HttpPost]
-        public void InsertCoins (ICollection<CoinDto> coins) {
-            _moneyService.InsertCoins (coins);
+        public void InsertCoin (int centValue) {
+            _moneyService.InsertCoins (new List<CoinDto> {
+                new CoinDto { CentValue = centValue },
+            });
         }
 
         [HttpGet, Route ("current")]
