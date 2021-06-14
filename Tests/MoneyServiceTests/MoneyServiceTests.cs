@@ -56,7 +56,7 @@ namespace MoneyServiceTests {
         }
 
         [Test]
-        private void WhenIWantToSeeTheCurrentCoinAmount_ThenItIsDisplayed () {
+        public void WhenIWantToSeeTheCurrentCoinAmount_ThenItIsDisplayed () {
             var coins = new List<CoinDto> {
                 new CoinDto { CentValue = (int) Denomination.Nickel },
                 new CoinDto { CentValue = (int) Denomination.Dime },
