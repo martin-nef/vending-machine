@@ -25,7 +25,7 @@ namespace Core.Services {
         }
 
         public double DisplayCurrentAmount () {
-            throw new NotImplementedException ();
+            return((double)_coinRepository.GetCoins().Sum(coin => (int)coin.Type)) / 100 ;
         }
 
         public void InsertCoins (ICollection<CoinDto> coinDtos) {
