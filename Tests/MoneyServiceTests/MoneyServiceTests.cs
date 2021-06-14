@@ -62,7 +62,7 @@ namespace MoneyServiceTests {
                 new CoinDto { CentValue = (int) Denomination.Dime },
                 new CoinDto { CentValue = (int) Denomination.Quarter },
             };
-            var expected = coins.Sum (coin => coin.CentValue);
+            var expected = (double)coins.Sum (coin => coin.CentValue);
             _sut.InsertCoins (coins);
 
             var currentAmount = _sut.DisplayCurrentAmount ();
