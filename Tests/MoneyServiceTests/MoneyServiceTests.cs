@@ -55,6 +55,7 @@ namespace MoneyServiceTests {
             VerifyInsertedCoins (_coinRepo, new List<CoinDto> ());
         }
 
+        [Test]
         private void WhenIWantToSeeTheCurrentCoinAmount_ThenItIsDisplayed () {
             var coins = new List<CoinDto> {
                 new CoinDto { CentValue = (int) Denomination.Nickel },
