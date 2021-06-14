@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Core.Dtos;
 using Core.Interfaces;
 using Core.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Core.Controllers {
     [ApiController]
@@ -22,7 +22,12 @@ namespace Core.Controllers {
 
         [HttpPost]
         public void InsertCoins (ICollection<CoinDto> coins) {
-            _moneyService.InsertCoins(coins);
+            _moneyService.InsertCoins (coins);
+        }
+
+        [HttpGet, Route ("current")]
+        public double DisplayCurrentAmount () {
+            return _moneyService.DisplayCurrentAmount ();
         }
     }
 }
